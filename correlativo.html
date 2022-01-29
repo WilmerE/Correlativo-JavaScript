@@ -44,9 +44,9 @@
 		//SPLITAR CORRELATIVO PARA ACCEDER AL NUMERO
 		correlativo_actual = to_string.split("-")
 		//CONTAMOS LOS DIGITOS DEL NÚMERO DEL CORRELATIVO
-		longitud_digitos = String(correlativo_actual[2]).length
+		longitud_digitos = String(correlativo_actual[correlativo_actual.length - 1]).length
 		//OBTENEMOS VALOR DEL NUMERO CON PARSEINT - (PERDEMOS LOS CEROS DE LA IZQUIERDA)
-		numero_correlativo = parseInt(correlativo_actual[2])
+		numero_correlativo = parseInt(correlativo_actual[correlativo_actual.length - 1])
 		//LE SUMAMOS 1 AL VALOR DEL NUMERO ACTUAL
 		nuevo_numero = (numero_correlativo + 1)
 		//CONVERTIMOS EL NUMERO A CADENA PARA CONTADOR LOS DIGITOS
