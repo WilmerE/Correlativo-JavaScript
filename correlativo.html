@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Crear nuevo correlativo</title>
+</head>
+<body>
+	<h3>Correlativo inicial: CHQ-2022-000000</h3>
+	<p>Sucursal (Letras o Números) + Año + Número</p>
+	<input type="text" name="nuevo" id="nuevo" value="CHQ-2022-000000">
+	<button id="boton">Sumar correlativo</button>
+	<br>
+	<h3>Nuevo correlativo: <span id="mostrar"></span></h3>
+	<ul>
+	</ul>
+</body>
+<script type="text/javascript">
+"use strict"
+	//VARIBALES USADAS SOLO DE EJEMPLO
+	var boton = document.querySelector('#boton')
+	var ultimo_correlativo = document.querySelector('#nuevo')
+
+	//VARIABLES GLOBALES DEL PLUGIN
+	const now = new Date()
+	var correlativo_actual = []
+
+	//FUNCION DE EJEMPLO, REEMPLAZAR POR AJAX QUE RECIBA EL ULTIMO CORRELATIVO
+	boton.addEventListener('click', () => {
+		
+		//VARIABLE QUE RECIBA EL VALOR DEL ULTIMO CORRELATIVO
+		var to_string = ultimo_correlativo.value
+		//OBTENER AÑO ACTUAL
+		var anio = now.getFullYear()
+		//VARIABLES INTERNAS DE LA FUNCION CON EL FIN DE QUE SIEMPRE SE INICIALICEN VACIAS O EN CERO
+		var nuevo_correlativo = "",
+			cadena_de_0 = ""
+		var numero_correlativo = 0,
+			nuevo_numero = 0,
+			longitud_digitos = 0,
+			digitos_usados = 0,
+			numero_de_0 = 0
+
+		//SPLITAR CORRELATIVO PARA ACCEDER AL NUMERO
+		correlativo_actual = to_string.split("-")
+		//CONTAMOS LOS DIGITOS DEL NÚMERO DEL CORRELATIVO
+		longitud_digitos = String(correlativo_actual[2]).length
+		//OBTENEMOS VALOR DEL NUMERO CON PARSEINT - (PERDEMOS LOS CEROS DE LA IZQUIERDA)
+		numero_correlativo = parseInt(correlativo_actual[2])
+		//LE SUMAMOS 1 AL VALOR DEL NUMERO ACTUAL
+		nuevo_numero = (numero_correlativo + 1)
+		//CONVERTIMOS EL NUMERO A CADENA PARA CONTADOR LOS DIGITOS
+		digitos_usados = String(nuevo_numero).length
+		//CALCULAMOS EL NUMERO DE CEROS QUE DEBEMOS AGREGAR A LA IZQUIERDA
+		numero_de_0 = (longitud_digitos - digitos_usados)
+		
+		//VERIFICAMOS SI HAY QUE AGREGAR CEROS A LA IZQUIERA
+		if (numero_de_0 > 0) {
+			//CREAMOS LA CADENA CON LA CANTIDAD DE CEROS
+			for (var i = 0; i < numero_de_0; i++) {
+				cadena_de_0 += "0"
+			}
+			//CREAMOS EL NUEVO CORRELATIVO CON LA CANTIDAD DE CEROS COMO PREJIO AL NUEVO VALOR DEL NUMERO
+			nuevo_correlativo = String(correlativo_actual[0]) + "-"+anio+"-"+cadena_de_0+nuevo_numero
+		} else {
+			//SI NO HAY CEROS QUE AGREGAR SOLO CONCATENAMOS EL NUEVO VALOR DEL NUMERO
+			nuevo_correlativo = String(correlativo_actual[0]) + "-"+anio+"-"+nuevo_numero
+		}
+
+		//SETTER DE EJEMPLO (nuevo_correlativo - SE DEBE ASIGNAR AL CAMPO DONDE SE DESEA MOSTRAR EL NUEVO CORRELATIVO)
+		boton.textContent = "Seguir incrementando"
+		ultimo_correlativo.value = ""
+		ultimo_correlativo.value = nuevo_correlativo
+		document.querySelector("ul").innerHTML = "<li><b>Digitos del nuevo numero:</b> "+digitos_usados+"</li><li><b>Ceros agregados:</b> "+numero_de_0+"</li>"
+		document.querySelector('#mostrar').textContent = ""
+		document.querySelector('#mostrar').textContent = nuevo_correlativo
+
+	})
+</script>
+</html>
